@@ -1,0 +1,8 @@
+---
+PS1530_PRE:
+  :name: PS1530_PRE
+  :front: http://localhost/auto/shops/PS1530_PRE
+  :back: http://localhost/auto/shops/PS1530_PRE/admin-dev
+  :user: pub@prestashop.com
+  :password: '123456789'
+
