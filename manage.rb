@@ -45,4 +45,35 @@ if ARGV[1] == 'import'
 			puts "Not a file!"
 		end
 	end
+elsif ARGV[1] == 'list'
+	if ARGV[2] == 'languages'
+		isos = PrestaShop.list_languages
+		puts "There are #{isos.count} languages installed on this shop: "
+		puts isos.join(", ")
+	else
+		puts "Insufficient arguments!"
+	end
+elsif ARGV[1] == 'export'
+	
+	isos = PrestaShop.list_languages
+	
+	export_isos = []
+	if ARGV[2] == 'all'
+		export_isos = isos
+	else
+		export_isos = ARGV[2].split(",")
+	end
+	
+	output_dir = nil
+	if ARGV[3] == "into"
+		if File.directory? ARGV[4]
+			output_dir = ARGV[4]
+		end
+	end
+	
+	export_isos.each do |iso|
+		res = PrestaShop.export_language iso, output_dir
+		puts "Finished exporting #{iso}!"
+	end
+	
 end

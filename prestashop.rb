@@ -60,6 +60,25 @@ module PrestaShop
 		end
 	end
 	
+	def self.list_languages
+		self.goto 'AdminTranslations'
+		@body.to_s.scan(/javascript:chooseTypeTranslation\('([a-z]{2})'\)/).map{|m| m[0]}
+	end
+	
+	def self.export_language iso, output_dir=nil
+		response = RestClient.post @urls['AdminTranslations'], 'theme' => 'default', 'iso_code' => iso, 'submitExport' => 'Export'
+		if response.code == 200
+			if output_dir and File.directory?(output_dir)
+				File.open("#{output_dir}/#{iso}.gzip","w") do |file|
+					file.puts response
+				end
+			end
+			return true
+		else
+			return false
+		end
+	end
+	
 	def self.authenticate
 	
 		response = RestClient.post @config[:back]+"/ajax-tab.php", {
